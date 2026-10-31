@@ -61,10 +61,21 @@ Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke
 ## US-04 Login admin
 
 **Prompt:**
+Baca AGENTS.md bagian aturan keamanan dan docs/user-stories.md bagian US-04.
+
+Buat login admin memakai Supabase Auth (email dan password) dengan @supabase/ssr dan cookie, memakai SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY. Login diproses dengan Server Action di app/admin/actions.js dan disambungkan ke form di app/admin/login/page.jsx. Login berhasil diarahkan ke /admin; login gagal menampilkan pesan error yang jelas di halaman login. Buat juga tombol "Keluar" di components/NavAdmin.jsx berfungsi: mengakhiri sesi lalu kembali ke /admin/login. Jangan ubah tampilan. Hapus CatatanBelumAktif dari halaman login.
 
 **Hasil:**
+- Membuat helper `createAdminClient` di `lib/supabase/admin.js` menggunakan `@supabase/ssr` dan cookie storage (`next/headers`), dengan `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY`.
+- Membuat Server Action `login` dan `keluar` di `app/admin/actions.js`.
+- Menghubungkan form login di `app/admin/login/page.jsx` ke Server Action `login`, menampilkan pesan error bila kredensial salah atau terjadi kegagalan autentikasi, serta mengarahkan ke `/admin` jika berhasil.
+- Mengaktifkan tombol "Keluar" di `components/NavAdmin.jsx` dengan Server Action `keluar` untuk memanggil `signOut()` dan mengalihkan ke `/admin/login`.
+- Menghapus komponen `CatatanBelumAktif` dari halaman login.
+- Tampilan form, tombol, dan navigasi admin dipertahankan sesuai desain awal.
 
 **Perbaikan:**
+- Menerjemahkan pesan kegagalan autentikasi umum seperti "Invalid login credentials" menjadi pesan berbahasa Indonesia yang jelas ("Email atau password salah.") bagi admin.
+- Menangani pemanggilan Server Action baik melalui `useActionState` maupun form action tradisional secara fleksibel.
 
 ## US-05 Ganti password
 
